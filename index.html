@@ -1,264 +1,193 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendavision - Reserva tu Hora</title>
+  <title>Agendavision - Solución Óptica</title>
   <style>
-    /* ===== VARIABLES PROFESIONALES ===== */
+    /* ===== DISEÑO PROFESIONAL PARA ÓPTICAS ===== */
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #14b8a7;
-      --bg-light: #f8f9fa;
-      --card-bg: #ffffff;
-      --text: #1e293b;
-      --muted: #64748b;
-      --danger: #ef4444;
+      --negro-profundo: #0a0a0f;
+      --gris-carbono: #1f2937;
+      --verde-medicina: #059669;
+      --blanco-texto: #f8fafc;
+      --texto-secundario: #64748b;
     }
 
-    /* ===== BASE ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg-light); color: var(--text); line-height: 1.5; }
-    a { color: var(--primary); text-decoration: none; }
-    a:hover { color: var(--primary-hover); }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--negro-profundo);
+      color: var(--blanco-texto);
+      line-height: 1.6;
+    }
+    a { color: var(--verde-medicina); text-decoration: none; }
+    a:hover { color: #047857; }
 
-    /* ===== MODAL RESERVA (POPUP) ===== */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 1000; }
-    .modal { width: 90%; max-width: 520px; background: var(--card-bg); border-radius: 16px; padding: 40px 30px; position: relative; }
-    .modal h2 { color: var(--primary); margin-top: 0; margin-bottom: 10px; font-size: 24px; }
-    .modal .close { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #666; }
-    .modal h3 { margin: 10px 0 20px; font-size: 18px; }
-    .modal p { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
+    /* --- NAVEGATION --- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar .logo { font-size: 1.5rem; font-weight: bold; color: var(--verde-medicina); }
+    .navbar .links a { margin-left: 1rem; color: var(--blanco-texto); text-decoration: none; font-size: 0.9rem; }
+    .navbar .links a:hover { color: var(--verde-medicina); }
 
-    /* ===== FORMULARIO MÍNIMO ===== */
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
-    .form-group small { color: var(--muted); font-size: 12px; display: block; margin-top: 4px; }
+    /* --- HERO SECTION --- */
+    .hero {
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+    }
+    .hero h1 { font-size: 3.5rem; line-height: 1.2; color: var(--blanco-texto); }
+    .hero p { font-size: 1.2rem; color: var(texto-secundario); margin-top: 1rem; }
 
-    /* ===== HORAS DISPONIBLES (GRID) ===== */
-    .horas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-    .hora-btn { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
-    .hora-btn:hover { background: #f1f5f9; }
-    .hora-btn.seleccionado { background: var(--primary); color: #fff; border-color: var(--primary); }
+    /* --- SECTIONS --- */
+    .section { padding: 3rem 2rem; max-width: 800px; margin: 0 auto; }
+    .section h2 { color: var(verde-medicina); border-bottom: 1px solid var(verde-medicina); padding-bottom: 0.5rem; margin-bottom: 1rem; font-size: 1.8rem; }
+    .section p { color: var(texto-secundario); margin-bottom: 1rem; }
 
-    /* ===== RESUMEN / CONFIRMACIÓN ===== */
-    .resumen { background: #f1f5f9; padding: 20px; border-radius: 10px; margin-top: 20px; display: none; }
-    .resumen h3 { margin-top: 0; color: var(--primary); font-size: 18px; }
-    .resumen p { margin: 8px 0; font-size: 14px; }
-    .resumen .costos { font-weight: bold; color: var(--danger); }
+    /* --- BENEFITS GRID --- */
+    .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .benefit-card { background: var(gris-carbono); padding: 2rem; border-radius: 10px; text-align: center; transition: transform 0.2s; }
+    .benefit-card:hover { transform: translateY(-5px); }
+    .benefit-card h3 { color: var(verde-medicina); margin-bottom: 0.5rem; }
+    .benefit-card p { color: var(texto-secundario); font-size: 0.9rem; }
 
-    /* ===== BOTONES ===== */
-    .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-secondary { background: #64748b; color: #fff; margin-top: 10px; }
-    .btn-danger { background: var(--danger); color: #fff; width: 100%; }
+    /* --- CTA SECTION --- */
+    .cta-section { text-align: center; background: var(gris-carbono); padding: 3rem 2rem; margin-top: 3rem; border-radius: 10px; }
+    .cta-section h2 { font-size: 1.5rem; color: var(blanco-texto); }
+    .cta-btn { display: inline-block; background: var(verde-medicina); color: var(negro-profundo); padding: 12px 28px; border-radius: 6px; font-weight: bold; text-transform: uppercase; margin-top: 1rem; }
+    .cta-btn:hover { background: #047857; }
 
-    /* ===== NAVEGACIÓN INTERNA ===== */
-    .step { display: none; }
-    .step.activo { display: block; }
-    .nav-links { margin-top: 20px; display: flex; gap: 10px; }
-    .nav-links a { padding: 8px 14px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; color: var(--text); }
-    .nav-links a.activo { background: var(--primary); color: #fff; }
-    </style>
-  </head>
-  <body>
+    /* --- FOOTER --- */
+    footer { text-align: center; padding: 2rem; color: var(texto-secundario); font-size: 0.8rem; }
 
-    <!-- Modal de Reserva (Popup) -->
-    <div class="modal-overlay" id="modal-overlay">
-      <div class="modal" id="modal-reserva">
-        <span class="close" onclick="ocertarModal()">&times;</span>
-        <h2>Agendavision</h2>
-        <p>Reserva tu hora para examen visual</p>
+    /* --- MODAL RESERVA (incrustado) --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1050; }
+    .modal { background: var(gris-carbono); padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; }
+    .modal h2 { color: var(verde-medicina); margin-top: 0; font-size: 1.5rem; }
+    .modal .close { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 1.5rem; cursor: pointer; }
+    .modal form { margin-top: 20px; }
+    .modal .form-group { margin-bottom: 15px; }
+    .modal .form-group label { display: block; color: #ddd; margin-bottom: 5px; font-size: 0.8rem; }
+    .modal .form-group input, .modal .form-group select { width: 100%; padding: 8px; border: 1px solid #444; border-radius: 6px; background: var(negro-profundo); color: #fff; font-size: 0.9rem; }
+    .modal .form-group small { color: #888; font-size: 0.7rem; display: block; margin-top: 4px; }
+    .modal .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; background: var(verde-medicina); color: var(negro-profundo); font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+    .modal .btn:hover { background: #047857; }
+  </style>
+</head>
+<body>
 
-        <form id="form-reserva" class="formulario">
-          <!-- PASO 1: DATOS DEL SOLICITANTE -->
-          <div class="step activo" id="step-datos">
-            <h3>Datos del solicitante</h3>
-            <div class="form-group">
-              <label>Nombre completo</label>
-              <input type="text" id="nombre" required>
-            </div>
-            <div class="form-group">
-              <label>Teléfono (WhatsApp)</label>
-              <input type="tel" id="telefono" required>
-            </div>
-            <div class="form-group">
-              <label>Correo electrónico</label>
-              <input type="email" id="correo">
-            </div>
-          </div>
+  <!-- NAVEGATION -->
+  <nav class="navbar">
+    <div class="logo">Agendavision</div>
+    <div class="links">
+      <a href="#beneficios">Beneficios</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
 
-          <!-- PASO 2: SERVICIO Y FECHA -->
-          <div class="step" id="step-servicio">
-            <h3>Servicio y fecha</h3>
-            <p>Selecciona el servicio, fecha y hora disponible:</p>
-            <div class="form-group">
-              <label>Servicio</label>
-              <select id="servicio-select" disabled>
-                <option value="Examen Visual Adulto - Fonasa">Examen Visual Adulto - Fonasa</option>
-                <option value="Examen Visual Adulto - Isapre">Examen Visual Adulto - Isapre</option>
-                <option value="Compra de lentes">Compra de lentes</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Fecha de la consulta</label>
-              <input type="date" id="fecha-consulta" min="2026-11-27" required>
-            </div>
-            <div class="form-group">
-              <label>Horario disponible</label>
-              <div class="horas-grid" id="horas-grid">
-                <button class="hora-btn" data-hora="09:00">9:00</button>
-                <button class="hora-btn" data-hora="10:30">10:30</button>
-                <button class="hora-btn" data-hora="14:00">14:00</button>
-                <button class="hora-btn" data-hora="15:30">15:30</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- PASO 3: RESUMEN -->
-          <div class="step" id="step-resumen" style="display: none;">
-            <h3>Confirmación de reserva</h3>
-            <div class="resumen" id="resumen-contenido">
-              <p><strong>Servicio:</strong> <span id="nom-servicio"></span></p>
-              <p><strong>Fecha y hora:</strong> <span id="fecha-hora-seleccionada"></span></p>
-              <p><strong>Solicitante:</strong> <span id="datos-cliente"></span></p>
-              <p class="costos"><strong>Costo:</strong> <span id="costo-total">$6.600</span></p>
-            </div>
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
-              <button onclick="whatsappEnviar()" class="btn btn-danger">Enviar por WhatsApp</button>
-              <button onclick="ocertarModal()" class="btn btn-secondary">Atrás</button>
-            </div>
-          </div>
-        </form>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div>
+      <h1>Agendavision</h1>
+      <h2>El sistema más rápido para que tus pacientes reserven hora</h2>
+      <p>Optimiza la gestión de tu consultorio optológico y dedica más tiempo a la atención visual.</p>
+      <div>
+        <a href="#" class="cta-btn" onclick="document.querySelector('.modal-reserva').style.display='block'">Agendar Hora Ahora</a>
       </div>
     </div>
+  </section>
 
-    <!-- Scripts -->
-    <script>
-      // ===== ESTADO INTERNO =====
-      let pasoActual = 1;
-      const pasos = [1, 2, 3];
+  <!-- SECTION: BENEFICIOS -->
+  <section class="section" id="beneficios">
+    <h2>Beneficios para tu consultorio</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <h3>🔹 Reduce Ausencias</h3>
+        <p>Los pacientes confirman su hora y reciben recordatorios automáticos.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>🔹 Optimiza tu Tiempo</h3>
+        <p>No pierdas citas no cubiertas ni esperas largas en recepción.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>🔹 Fácil para el Paciente</h3>
+        <p>El paciente agenda desde su celular en segundos, sin complicaciones.</p>
+      </div>
+    </div>
+  </section>
 
-      // ===== ELEMENTOS DEL DOM =====
-      const modal = documento.getElementById('modal-reserva');
-      const modalOverlay = documento.getElementById('modal-overlay');
-      const formulario = documento.getElementById('form-reserva');
-      const stepDatos = documento.getElementById('step-datos');
-      const stepServicio = documento.getElementById('step-servicio');
-      const stepResumen = documento.getElementById('step-resumen');
-      const nomServicio = documento.getElementById('nom-servicio');
-      const fechaHoraSel = documento.getElementById('fecha-hora-seleccionada');
-      const datosCliente = documento.getElementById('datos-cliente');
-      const costoTotal = documento.getElementById('costo-total');
+  <!-- SECTION: CÓMO FUNCIONA -->
+  <section class="section" id="como-funciona">
+    <h2>¿Cómo funciona?</h2>
+    <ol style="color: var(blanco-texto); line-height: 1.8;">
+      <li>El paciente hace click en "Agendar hora" en tu web.</li>
+      <li>Se abre un popup con el calendario de horarios disponibles.</li>
+      <li>El paciente selecciona fecha y hora.</li>
+      <li>Al confirmar, el sistema envía un mensaje directo a tu WhatsApp.</li>
+      <li>Tú confirmas la cita y el paciente asiste a su consulta.</li>
+    </ol>
+  </section>
 
-      // ===== ABRIR MODAL =====
-      funcion abrirModal() {
-        modal.style.display = 'flex';
-        modalOverlay.style.display = 'flex';
-        pasoActual = 1;
-        actualizarPasos();
-      }
+  <!-- CTA SECTION -->
+  <div class="cta-section">
+    <h2>¿Listo para transformar tu consultorio?</h2>
+    <a href="#" class="cta-btn" onclick="document.querySelector('.modal-reserva').style.display='block'">Quiero comenzar hoy</a>
+  </div>
 
-      funcion ocertarModal() {
-        modal.style.display = 'none';
-        modalOverlay.style.display = 'none';
-        formulario.reset();
-        pasoActual = 1;
-        actualizarPasos();
-      }
+  <!-- MODAL DE RESERVA (SISTEMA LITE EMBEBIDO) -->
+  <div class="modal-reserva" style="display: none;">
+    <div class="modal">
+      <span class="close" onclick="this.parentNode.parentNode.style.display='none'">&times;</span>
+      <h2>Reserva tu Hora</h2>
+      <p>Completa el formulario y en segundos recibirás un WhatsApp de confirmación.</p>
+      <form class="form-reserva">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono (WhatsApp)</label>
+          <input type="tel" required>
+        </div>
+        <div class="form-group">
+          <label>Motivo de la consulta</label>
+          <select required>
+            <option value="Examen Visual">Examen Visual</option>
+            <option value="Compra de lentes">Compra de lentes</option>
+            <option value="Control Periodico">Control Periodico</option>
+          </select>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px;">
+          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">9:00</button>
+          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">11:00</button>
+          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">14:00</button>
+          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">16:00</button>
+        </div>
+        <button type="submit" style="width:100%; background:var(verde-medicina); color:var(negro-profundo); padding:12px; margin-top:10px; border:none; border-radius:6px; font-weight:bold;">Enviar solicitud</button>
+      </form>
+      <p style="margin-top:15px; font-size:0.7rem; color: #888; text-align:center;">Al enviar aceptas nuestra política de privacidad.</div>
+    </div>
+  </div>
 
-      // ===== NAVEGAR PASOS =====
-      funcion siguiente() {
-        if (pasoActual < 3) {
-          pasoActual++;
-          actualizarPasos();
-        }
-      }
+  <!-- FOOTER -->
+  <footer>
+    <p>Agendavision 2024 | Sistema de reservas ópticas</p>
+  </footer>
 
-      funcion anterior() {
-        if (pasoActual > 1) {
-          pasoActual--;
-          actualizarPasos();
-        }
-      }
-
-      funcion actualizarPasos() {
-        pasoActual = Math.max(1, Math.min(3, pasoActual));
-        [stepDatos, stepServicio, stepResumen].forEach((s, i) => {
-          s.classList.toggle('activo', i + 1 === pasoActual);
-        });
-        documento.querySelectorAll('.nav-links a')[pasoActual - 1].classList.add('activo');
-      }
-
-      // ===== SELECCIÓN DE HORA =====
-      function seleccionarHora(btn) {
-        documento.querySelectorAll('.hora-btn').forEach(b => b.classList.remove('seleccionado'));
-        btn.classList.add('seleccionado');
-      }
-
-      // Eventos: HORAS
-      documento.querySelectorAll('.hora-btn').forEach(b => {
-        b.addEventListener('click', function() {
-          seleccionarHora(this);
-        });
-      });
-
-      // ===== ENVIAR FORMULARIO =====
-      formulario.addEventListener('submit', funcion(e) {
-        e.preventDefault();
-        
-        const nombre = documento.getElementById('nombre').value.trim();
-        const telefono = documento.getElementById('telefono').value.trim();
-        const correo = documento.getElementById('correo').value.trim();
-        const fecha = documento.getElementById('fecha-consulta').value;
-        const horaSeleccionada = documento.querySelector('.hora-btn.seleccionado')?.dataset.hora || '09:00';
-        const servicio = documento.getElementById('servicio-select').value;
-
-        // Validación simple
-        if (!nombre || !telefono) {
-          alert('Por favor completa los campos obligatorios: nombre y teléfono.');
-          return;
-        }
-
-        // Mostrar paso de resumen
-        pasoActual = 3;
-        actualizarPasos();
-
-        nomServicio.textContent = servicio;
-        fechaHoraSel.textContent = `${documento.getElementById('fecha-consulta').value} a las ${horaSeleccionada} am`;
-        datosCliente.textContent = `${nombre} - Tel: ${telefono}`;
-        costoTotal.textContent = '$6.600';
-
-        // Enfocar en el resumen
-        pasoActual = 3;
-        actualizarPasos();
-      });
-
-      // ===== WHATSAPP =====
-      funcion whatsappEnviar() {
-        const nombre = documento.getElementById('nombre').value.trim();
-        const telefono = documento.getElementById('telefono').value.trim();
-        const fechaSel = documento.getElementById('fecha-consulta').value;
-        const horaSel = documento.querySelector('.hora-btn.seleccionado')?.dataset.hora || '09:00';
-        const mensaje = `Hola, nueva solicitud de reserva: ${nombre} quiere hora para Examen Visual Adulto - Fonasa. Fecha: ${fechaSel} a las ${horaSel} am. Tel: ${telefono}`;
-        ventana.abrir(`https://wa.me/569XXXXXXXX?text=${encodeURIComponent(mensaje)}`, '_blank');
-        ocertarModal();
-      }
-
-      // ===== EVENTOS INICIALES =====
-      // Simular apertura al cargar (quitaría en producción real o al hacer click en botón external)
-      documento.addEventListener('DOMContentLoaded', abrirModal);
-
-      // Navegación entre pasos (simulada con enlaces invisibles en HTML, aquí usamos los pasos del form)
-      documento.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', function(e) {
-          e.preventDefault();
-          anterior();
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
