@@ -4,190 +4,277 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendavision - Solución Óptica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== DISEÑO PROFESIONAL PARA ÓPTICAS ===== */
     :root {
-      --negro-profundo: #0a0a0f;
-      --gris-carbono: #1f2937;
-      --verde-medicina: #059669;
-      --blanco-texto: #f8fafc;
-      --texto-secundario: #64748b;
+      --color-primario: #0f172a;
+      --color-secundario: #1e293b;
+      --color-acento: #0891b2; /* Celeste moderno */
+      --color-exito: #10b981;
+      --color-fondo: #f8fafc;
+      --color-texto: #0f172a;
+      --color-muted: #64748b;
+      --border-radius: 12px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--negro-profundo);
-      color: var(--blanco-texto);
-      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      overflow-x: hidden;
     }
-    a { color: var(--verde-medicina); text-decoration: none; }
-    a:hover { color: #047857; }
 
-    /* --- NAVEGATION --- */
+    a { color: var(--color-acento); text-decoration: none; }
+    a:hover { color: #0891b2; }
+
+    /* ---- NEON LIGHT EFFECTS --- */
+    .neon-text {
+      text-shadow: 0 0 5px var(--color-acento), 0 0 10px var(--color-acento);
+    }
+    .neon-card {
+      box-shadow: 0 0 15px rgba(8, 145, 178, 0.15);
+      border: 1px solid rgba(8, 145, 178, 0.3);
+    }
+
+    /* --- NAVBAR --- */
     .navbar {
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 1rem 2rem;
-      background: rgba(10, 10, 15, 0.9);
+      padding: 1.5rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(10px);
-      z-index: 1000;
+      z-index: 9999;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .navbar .logo { font-size: 1.5rem; font-weight: bold; color: var(--verde-medicina); }
-    .navbar .links a { margin-left: 1rem; color: var(--blanco-texto); text-decoration: none; font-size: 0.9rem; }
-    .navbar .links a:hover { color: var(--verde-medicina); }
+    .navbar .logo { color: var(--color-acento); font-weight: 600; font-size: 1.5rem; }
+    .navbar .links { display: flex; gap: 1rem; }
+    .navbar .links a { color: #ffffff; transition: 0.3s; font-size: 0.9rem; }
+    .navbar .links a:hover { color: var(--color-acento); }
 
-    /* --- HERO SECTION --- */
+    /* --- HERO SECTION (Moderno) --- */
     .hero {
-      height: 80vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 2rem;
+      position: relative;
     }
-    .hero h1 { font-size: 3.5rem; line-height: 1.2; color: var(--blanco-texto); }
-    .hero p { font-size: 1.2rem; color: var(texto-secundario); margin-top: 1rem; }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at bottom, #0f172a 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 { font-size: 4rem; font-weight: 700; color: #ffffff; line-height: 1.1; }
+    .hero h1 span { color: var(--color-acento); }
+    .hero p { font-size: 1.2rem; color: #64748b; margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
-    /* --- SECTIONS --- */
-    .section { padding: 3rem 2rem; max-width: 800px; margin: 0 auto; }
-    .section h2 { color: var(verde-medicina); border-bottom: 1px solid var(verde-medicina); padding-bottom: 0.5rem; margin-bottom: 1rem; font-size: 1.8rem; }
-    .section p { color: var(texto-secundario); margin-bottom: 1rem; }
+    /* --- CAROUSEL DE CARACTERÍSTICAS --- */
+    .features-section { padding: 4rem 2rem; background: #ffffff; }
+    .features-section h2 { color: #0f172a; font-size: 2rem; margin-bottom: 2rem; }
+    .carousel {
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      border: 1px solid #e2e8f0;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-card {
+      min-width: 100%;
+      padding: 2rem;
+      text-align: center;
+      background: #f8fafc;
+      border-radius: var(--border-radius);
+    }
+    .carousel-card h3 { color: #0f172a; margin-bottom: 0.5rem; }
+    .carousel-card p { color: #64748b; font-size: 0.9rem; }
 
-    /* --- BENEFITS GRID --- */
-    .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
-    .benefit-card { background: var(gris-carbono); padding: 2rem; border-radius: 10px; text-align: center; transition: transform 0.2s; }
-    .benefit-card:hover { transform: translateY(-5px); }
-    .benefit-card h3 { color: var(verde-medicina); margin-bottom: 0.5rem; }
-    .benefit-card p { color: var(texto-secundario); font-size: 0.9rem; }
+    /* --- TABLA DE PRECIOS --- */
+    .pricing-section { padding: 4rem 2rem; background: #f1f5f9; }
+    .pricing-section h2 { color: #0f172a; font-size: 2rem; margin-bottom: 2rem; text-align: center; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .pricing-card {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      transition: 0.3s;
+    }
+    .pricing-card:hover { border-color: var(--color-acento); transform: translateY(-5px); }
+    .pricing-card h3 { color: #0f172a; margin-bottom: 1rem; font-size: 1.2rem; }
+    .pricing-price { font-size: 2rem; color: #0891b2; margin-bottom: 1rem; }
+    .pricing-list { color: #64748b; margin-bottom: 1.5rem; }
+    .pricing-list li { margin-bottom: 0.5rem; }
+    .pricing-btn { width: 100%; padding: 10px; background: var(--color-acento); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; margin-top: 1rem; }
+    .pricing-btn:hover { background: #0891b2; }
 
     /* --- CTA SECTION --- */
-    .cta-section { text-align: center; background: var(gris-carbono); padding: 3rem 2rem; margin-top: 3rem; border-radius: 10px; }
-    .cta-section h2 { font-size: 1.5rem; color: var(blanco-texto); }
-    .cta-btn { display: inline-block; background: var(verde-medicina); color: var(negro-profundo); padding: 12px 28px; border-radius: 6px; font-weight: bold; text-transform: uppercase; margin-top: 1rem; }
-    .cta-btn:hover { background: #047857; }
+    .cta-section { background: #0f172a; color: #fff; padding: 4rem 2rem; text-align: center; }
+    .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+    .cta-btn { display: inline-block; padding: 12px 30px; background: var(--color-acento); color: #fff; border-radius: 6px; font-weight: 600; text-transform: uppercase; }
+    .cta-btn:hover { background: #0891b2; }
 
     /* --- FOOTER --- */
-    footer { text-align: center; padding: 2rem; color: var(texto-secundario); font-size: 0.8rem; }
+    footer { padding: 2rem; text-align: center; color: #64748b; font-size: 0.85rem; }
 
-    /* --- MODAL RESERVA (incrustado) --- */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1050; }
-    .modal { background: var(gris-carbono); padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; }
-    .modal h2 { color: var(verde-medicina); margin-top: 0; font-size: 1.5rem; }
-    .modal .close { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 1.5rem; cursor: pointer; }
-    .modal form { margin-top: 20px; }
-    .modal .form-group { margin-bottom: 15px; }
-    .modal .form-group label { display: block; color: #ddd; margin-bottom: 5px; font-size: 0.8rem; }
-    .modal .form-group input, .modal .form-group select { width: 100%; padding: 8px; border: 1px solid #444; border-radius: 6px; background: var(negro-profundo); color: #fff; font-size: 0.9rem; }
-    .modal .form-group small { color: #888; font-size: 0.7rem; display: block; margin-top: 4px; }
-    .modal .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; background: var(verde-medicina); color: var(negro-profundo); font-weight: bold; cursor: pointer; font-size: 0.9rem; }
-    .modal .btn:hover { background: #047857; }
+    /* --- RESPONSIVE --- */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.5rem; }
+      .nav-links { display: none; }
+    }
   </style>
-</head>
-<body>
 
-  <!-- NAVEGATION -->
-  <nav class="navbar">
-    <div class="logo">Agendavision</div>
-    <div class="links">
-      <a href="#beneficios">Beneficios</a>
-      <a href="#como-funciona">Cómo funciona</a>
-      <a href="#contacto">Contacto</a>
-    </div>
-  </nav>
+  <body>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div>
-      <h1>Agendavision</h1>
-      <h2>El sistema más rápido para que tus pacientes reserven hora</h2>
-      <p>Optimiza la gestión de tu consultorio optológico y dedica más tiempo a la atención visual.</p>
-      <div>
-        <a href="#" class="cta-btn" onclick="document.querySelector('.modal-reserva').style.display='block'">Agendar Hora Ahora</a>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">Agendavision</div>
+      <div class="links">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#caracteristicas">Caracteristicas</a>
+        <a href="#precios">Precios</a>
+        <a href="#contacto">Contacto</a>
       </div>
     </div>
-  </section>
 
-  <!-- SECTION: BENEFICIOS -->
-  <section class="section" id="beneficios">
-    <h2>Beneficios para tu consultorio</h2>
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <h3>🔹 Reduce Ausencias</h3>
-        <p>Los pacientes confirman su hora y reciben recordatorios automáticos.</p>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container">
+        <h1>Agendavision</h1>
+        <h2>Transforma la gestión de tu consultorio optológico</h2>
+        <p>La forma más rápida y moderna de que tus pacientes reserven hora.</p>
+        <div>
+          <a href="#beneficios" class="neon-text cta-btn">Agendar Hora Ahora</a>
+        </div>
       </div>
-      <div class="benefit-card">
-        <h3>🔹 Optimiza tu Tiempo</h3>
-        <p>No pierdas citas no cubiertas ni esperas largas en recepción.</p>
+      <!-- Efecto de luz neon detrás -->
+      <div class="hero-bg"></div>
+    </section>
+
+    <!-- SECTION: BENEFICIOS / CARACTERÍSTICAS -->
+    <section class="features-section" id="beneficios">
+      <h2>Características Principales</h2>
+      <div class="carousel" id="carousel">
+        <div class="carousel-track" style="width: 300%; transition: transform 0.5s ease-in-out;">
+          <div class="carousel-card">
+            <h3>🔹 Ficha del Paciente</h3>
+            <p>Historial completo y ficha clínica digital.</p>
+          </div>
+          <div class="carousel-card">
+            <h3>🔹 Recordatorios WhatsApp</h3>
+            <p>Confirmación automática de citas al instante.</p>
+          </div>
+          <div class="carousel-card">
+            <h3>🔹 Reportes y Analítica</h3>
+            <p>Estadísticas de consultas y ocupación.</p>
+          </div>
+        </div>
       </div>
-      <div class="benefit-card">
-        <h3>🔹 Fácil para el Paciente</h3>
-        <p>El paciente agenda desde su celular en segundos, sin complicaciones.</p>
+      <button class="btn-pro" onclick="moverCaracteristicas(-1)">Anterior</button>
+      <button class="btn-pro" onclick="moverCaracteristicas(1)">Siguiente</button>
+    </section>
+
+    <!-- SECTION: TABLA DE PRECIOS -->
+    <section class="pricing-section" id="precios">
+      <h2>Planes de Suscripción</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Básico</h3>
+          <div class="pricing-price">$15 / mes</div>
+          <ul class="pricing-list">
+            <li>Ficha digital del paciente</li>
+            <li>Recordatorios por WhatsApp</li>
+          </ul>
+          <button class="pricing-btn">Empezar Gratis</button>
+        </div>
+        <div class="pricing-card">
+          <h3>Profesional</h3>
+          <div class="pricing-price">$29 / mes</div>
+          <ul class="pricing-list">
+            <li>Todas las de Básico</li>
+            <li>Reportes de ocupación</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <button class="pricing-btn">Seleccionar Plan</button>
+        </div>
+        <div class="pricing-card">
+          <h3>Empresarial</h3>
+          <div class="pricing-price">Custom</div>
+          <ul class="pricing-list">
+            <li>Todas las de Profesional</li>
+            <li>Múltiples consultorios</li>
+            <li>API y Integraciones</li>
+          </ul>
+          <button class="pricing-btn">Contactar Ventas</button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SECTION: CÓMO FUNCIONA -->
-  <section class="section" id="como-funciona">
-    <h2>¿Cómo funciona?</h2>
-    <ol style="color: var(blanco-texto); line-height: 1.8;">
-      <li>El paciente hace click en "Agendar hora" en tu web.</li>
-      <li>Se abre un popup con el calendario de horarios disponibles.</li>
-      <li>El paciente selecciona fecha y hora.</li>
-      <li>Al confirmar, el sistema envía un mensaje directo a tu WhatsApp.</li>
-      <li>Tú confirmas la cita y el paciente asiste a su consulta.</li>
-    </ol>
-  </section>
+    <!-- SECTION: CÓMO FUNCIONA -->
+    <section class="section" id="como-funciona">
+      <h2>¿Cómo funciona?</h2>
+      <ol style="color: var(--color-texto); line-height: 1.8;">
+        <li>El paciente hace click en "Agendar hora" en tu web.</li>
+        <li>Se abre un popup con el calendario de horarios disponibles.</li>
+        <li>El paciente selecciona fecha y hora.</li>
+        <li>Al confirmar, el sistema envía un mensaje directo a tu WhatsApp.</li>
+        <li>Tú confirmas la cita y el paciente asiste a su consulta.</li>
+      </ol>
+    </section>
 
-  <!-- CTA SECTION -->
-  <div class="cta-section">
-    <h2>¿Listo para transformar tu consultorio?</h2>
-    <a href="#" class="cta-btn" onclick="document.querySelector('.modal-reserva').style.display='block'">Quiero comenzar hoy</a>
-  </div>
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+      <h2>¿Listo para transformar tu consultorio?</h2>
+      <a href="#contacto" class="cta-btn">Quiero comenzar hoy</a>
+    </section>
 
-  <!-- MODAL DE RESERVA (SISTEMA LITE EMBEBIDO) -->
-  <div class="modal-reserva" style="display: none;">
-    <div class="modal">
-      <span class="close" onclick="this.parentNode.parentNode.style.display='none'">&times;</span>
-      <h2>Reserva tu Hora</h2>
-      <p>Completa el formulario y en segundos recibirás un WhatsApp de confirmación.</p>
-      <form class="form-reserva">
-        <div class="form-group">
-          <label>Nombre completo</label>
-          <input type="text" required>
-        </div>
-        <div class="form-group">
-          <label>Teléfono (WhatsApp)</label>
-          <input type="tel" required>
-        </div>
-        <div class="form-group">
-          <label>Motivo de la consulta</label>
-          <select required>
-            <option value="Examen Visual">Examen Visual</option>
-            <option value="Compra de lentes">Compra de lentes</option>
-            <option value="Control Periodico">Control Periodico</option>
-          </select>
-        </div>
-        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px;">
-          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">9:00</button>
-          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">11:00</button>
-          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">14:00</button>
-          <button style="padding:10px; background:var(verde-medicina); color:var(negro-profundo); border:none; border-radius:6px; cursor:pointer;">16:00</button>
-        </div>
-        <button type="submit" style="width:100%; background:var(verde-medicina); color:var(negro-profundo); padding:12px; margin-top:10px; border:none; border-radius:6px; font-weight:bold;">Enviar solicitud</button>
-      </form>
-      <p style="margin-top:15px; font-size:0.7rem; color: #888; text-align:center;">Al enviar aceptas nuestra política de privacidad.</div>
-    </div>
-  </div>
+    <!-- FOOTER -->
+    <footer id="contacto">
+      <p>Agendavision 2024 | Solución para consultorios optométricos</p>
+    </footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>Agendavision 2024 | Sistema de reservas ópticas</p>
-  </footer>
+    <script>
+      // Carrusel de Características
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.carousel-card');
+      const totalSlides = slides.length;
 
-</body>
+      function moverCaracteristicas(delta) {
+        currentSlide += delta;
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
+        const track = document.querySelector('.carousel-track');
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      // Auto-play cada 3 segundos
+      setInterval(() => moverCaracteristicas(1), 3000);
+
+      // Animación suave en el scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
